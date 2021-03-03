@@ -139,7 +139,6 @@ public class DropdownController : MonoBehaviour
             {
                 // Pass the value to calculator controller
                 optionButton.GetComponent<Button>().onClick.AddListener(
-
                     () =>
                     {
                         // Broadcast message
@@ -147,11 +146,20 @@ public class DropdownController : MonoBehaviour
                     }
                 );
             }
-
             optionButton.transform.SetParent(menuPanel);
-
         }
     }
+
+    public void reBuildDropdown()
+    {
+        foreach (Transform child in menuPanel)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        BuildDropDown();
+    }
+
+
     public void onClick()
     {
         //Close all subPanels, will only run if type is submenu A.K.A within numbers
