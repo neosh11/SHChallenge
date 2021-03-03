@@ -21,13 +21,32 @@ public class CameraController : MonoBehaviour
     public float minimumVert = -45.0f;
     public float maximumVert = 45.0f;
 
+    // Show cross hair or not
+    private bool showX;
+    private static int crossHairSize = 20;
+    private static GUIStyle guiStyle = new GUIStyle();
+
     // Start is called before the first frame update
     void Start()
     {
         cam = GetComponent<Camera>();
         // Set light theme by default
         cam.backgroundColor = LIGHT;
+        showX = false;
+        guiStyle.normal.textColor = Color.red;
 
+
+    }
+
+    void OnGUI()
+    {
+        if (showX)
+        {
+            // Calculated here to not be affected by screensize changes
+            float posX = cam.pixelWidth / 2 - crossHairSize / 4;
+            float posY = cam.pixelHeight / 2 - crossHairSize / 2;
+            GUI.Label(new Rect(posX, posY, crossHairSize, crossHairSize), "X", guiStyle);
+        }
     }
 
     // Update is called once per frame
@@ -35,6 +54,9 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetButton("MouseMove"))
         {
+            // show crosshair
+            showX = true;
+
             // GetAxis is rate independent
             // Calc and clamp vertical rotation 
             _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert;
@@ -44,6 +66,10 @@ public class CameraController : MonoBehaviour
             float rotationY = transform.localEulerAngles.y + delta;
 
             transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
+        }
+        else if (showX)
+        {
+            showX = false;
         }
     }
 

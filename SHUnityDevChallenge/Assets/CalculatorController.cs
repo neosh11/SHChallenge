@@ -7,7 +7,8 @@ public class CalculatorController : MonoBehaviour
 
     // Internal structure to store inputs - might be useful for history?
     // Placed inside to avoid nameing overlap with Unity's input
-    public class Input
+    [System.Serializable]
+    public class CInput
     {
         public InputDataType type { get; set; }
         // Optional operation
@@ -20,7 +21,7 @@ public class CalculatorController : MonoBehaviour
 
     // This is stored in order to turn off all the dropdown panels when the app starts
     [SerializeField] private List<GameObject> panels;
-    public List<Input> inputs { get; private set; }
+    public List<CInput> inputs { get; private set; }
     // Used to store where in the input area the individual is
     // -1 means list is empty
     public int position { get; private set; }
@@ -31,7 +32,7 @@ public class CalculatorController : MonoBehaviour
     void Start()
     {
         foreach (GameObject g in panels) g.SetActive(false);
-        inputs = new List<Input>();
+        inputs = new List<CInput>();
         position = -1;
 
     }
@@ -80,7 +81,7 @@ public class CalculatorController : MonoBehaviour
         if (inputs.Count == 0)
         {
             // Add number
-            inputs.Add(new Input()
+            inputs.Add(new CInput()
             {
                 value = num,
                 type = InputDataType.NUMERIC,
@@ -106,7 +107,7 @@ public class CalculatorController : MonoBehaviour
             RemoveItemsAfterPos();
 
             // Reset value to nil
-            inputs.Add(new Input()
+            inputs.Add(new CInput()
             {
                 value = num,
                 type = InputDataType.NUMERIC,
@@ -124,7 +125,7 @@ public class CalculatorController : MonoBehaviour
     {
         if (operation == InputOperation.SQRT) return;
         double newVal = PerformOperation(inputs[inputs.Count - 1].value, num, operation);
-        inputs.Add(new Input()
+        inputs.Add(new CInput()
         {
             value = newVal,
             type = InputDataType.NUMERIC,
@@ -181,7 +182,7 @@ public class CalculatorController : MonoBehaviour
                 newVal = inputs[inputs.Count - 1].value;
 
 
-            inputs.Add(new Input()
+            inputs.Add(new CInput()
             {
                 type = InputDataType.OPERATION,
                 operation = op,
@@ -218,6 +219,28 @@ public class CalculatorController : MonoBehaviour
         {
             Debug.Log("Value: 0");
         }
+        Messenger.Broadcast(GameEvent.UPDATE_HISTORY);
+    }
+
+    public void LoadInputs(List<CInput> _inputs, int _position)
+    {
+        // clear out current inputs, letting garbage collector do the job
+        // TODO check if this line is even needed
+        inputs.Clear();
+
+        inputs = _inputs;
+        position = _position;
+        // Call update on view
+        Messenger.Broadcast(GameEvent.UPDATE_HISTORY);
+    }
+
+    public void ResetCalculator()
+    {
+        // clear out current inputs, letting garbage collector do the job
+        // TODO check if this line is even needed
+        inputs.Clear();
+        position = -1;
+        // Call update on view
         Messenger.Broadcast(GameEvent.UPDATE_HISTORY);
     }
 }

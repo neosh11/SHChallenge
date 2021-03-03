@@ -44,8 +44,13 @@ public class InputHistory : MonoBehaviour
 
 
         rows.Clear();
+        if (calculatorController.position < 0)
+        {
+            total.text = "";
+            return;
+        }
 
-        List<CalculatorController.Input> inputs = calculatorController.inputs;
+        List<CalculatorController.CInput> inputs = calculatorController.inputs;
         Debug.LogFormat("Number of inputs {0}", inputs.Count);
 
         // foreach (CalculatorController.Input i in inputs)
