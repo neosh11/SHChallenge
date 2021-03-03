@@ -62,6 +62,10 @@ public class DropdownController : MonoBehaviour
 
     void BuildDropDown()
     {
+
+        // Initialize
+        subPanels = new List<GameObject>();
+
         if (type == InputDataType.OPERATION)
         {
             options = new List<CalcInputs>(){
@@ -140,13 +144,11 @@ public class DropdownController : MonoBehaviour
 
             if (op.type == InputDataType.SUBMENU)
             {
-                // Initialize
-                subPanels = new List<GameObject>();
+
 
                 // Store panel
                 GameObject panel = optionButton.transform.Find("Panel").gameObject;
                 subPanels.Add(panel);
-
 
                 SubMenuItem subButtonComp = optionButton.GetComponent<SubMenuItem>();
                 subButtonComp.options = op.subOptions;
@@ -178,10 +180,15 @@ public class DropdownController : MonoBehaviour
 
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    public void onClick()
     {
-
+        //Close all subPanels, will only run if type is submenu A.K.A within numbers
+        if (subPanels != null && subPanels.Count > 0)
+        {
+            foreach (GameObject g in subPanels)
+            {
+                g.SetActive(false);
+            }
+        }
     }
 }
