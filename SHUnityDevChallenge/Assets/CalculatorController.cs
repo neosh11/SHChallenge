@@ -156,28 +156,36 @@ public class CalculatorController : MonoBehaviour
 
     void OnOpReceived(InputOperation op)
     {
+
+        // Check exceptional case of sqrt
+        bool lastIsSQRT = (inputs[position].type == InputDataType.OPERATION && inputs[position].operation == InputOperation.SQRT);
+
         // If no preveious inputs bad call!
         if (inputs.Count == 0)
         {
             Debug.Log("Bad call 0_");
         }
         // Check if last operaition was numer or square-root
-        else if (inputs[position].type == InputDataType.NUMERIC ||
-                    (
-                        inputs[position].type == InputDataType.OPERATION &&
-                        inputs[position].operation == InputOperation.SQRT)
-                    )
+        else if (inputs[position].type == InputDataType.NUMERIC || lastIsSQRT)
         {
             // Remove all items after position if position is not count-1
             RemoveItemsAfterPos();
 
             // Allowed - add to input
 
+            // Perform exceptional case
+            double newVal;
+            if (op == InputOperation.SQRT)
+                newVal = System.Math.Sqrt(inputs[inputs.Count - 1].value);
+            else
+                newVal = inputs[inputs.Count - 1].value;
+
+
             inputs.Add(new Input()
             {
                 type = InputDataType.OPERATION,
                 operation = op,
-                value = inputs[inputs.Count - 1].value
+                value = newVal
             });
             position++;
         }

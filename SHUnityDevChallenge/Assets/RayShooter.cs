@@ -11,18 +11,22 @@ public class RayShooter : MonoBehaviour
     [SerializeField] private GameObject projectile;
     [SerializeField] private float speed = 20;
 
+    private bool showX;
+    private static int crossHairSize = 20;
+
     // Start is called before the first frame update
     void Start()
     {
         _camera = GetComponent<Camera>();
+        showX = false;
     }
 
     void OnGUI()
     {
-        int size = 20;
-        float posX = _camera.pixelWidth / 2 - size / 4;
-        float posY = _camera.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posX, posY, size, size), "X");
+        // Calculated here to not be affected by screensize changes
+        float posX = _camera.pixelWidth / 2 - crossHairSize / 4;
+        float posY = _camera.pixelHeight / 2 - crossHairSize / 2;
+        GUI.Label(new Rect(posX, posY, crossHairSize, crossHairSize), "X");
     }
 
     // Update is called once per frame
@@ -30,6 +34,7 @@ public class RayShooter : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire2") && !EventSystem.current.IsPointerOverGameObject())
         {
+            showX = true;
             Debug.Log("FIRE");
             Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.
             pixelHeight / 2, 0);
