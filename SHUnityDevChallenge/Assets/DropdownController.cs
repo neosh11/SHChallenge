@@ -120,23 +120,30 @@ public class DropdownController : MonoBehaviour
                 subButtonComp.GenerateSubMenu();
 
             }
-            else if (op.type == InputDataType.NUMERIC)
-            {
-                // Pass the value to calculator controller
-                optionButton.GetComponent<Button>().onClick.AddListener(
-                    () =>
-                    {
-                        Debug.Log(System.Convert.ToInt32(op.text));
-                    }
-                );
-            }
+            // Unfortunatly this code is never called due to construction
+            // Will only be useful if SubMenuItem code is merged here
+            // TODO left due to time constraints
+            // else if (op.type == InputDataType.NUMERIC)
+            // {
+            //     // Pass the value to calculator controller
+            //     optionButton.GetComponent<Button>().onClick.AddListener(
+            //         () =>
+            //         {
+            //             Messenger<int>.Broadcast(GameEvent.SEND_NUM, System.Convert.ToInt32(op.text));
+
+            //         }
+            //     );
+            // }
+
             else if (op.type == InputDataType.OPERATION)
             {
+                // Pass the value to calculator controller
                 optionButton.GetComponent<Button>().onClick.AddListener(
 
                     () =>
                     {
-                        Debug.Log(op.operation);
+                        // Broadcast message
+                        Messenger<InputOperation>.Broadcast(GameEvent.SEND_OP, op.operation);
                     }
                 );
             }

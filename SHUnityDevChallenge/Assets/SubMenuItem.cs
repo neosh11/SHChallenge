@@ -33,7 +33,7 @@ public class SubMenuItem : MonoBehaviour
                 button.GetComponent<Button>().onClick.AddListener(
                     () =>
                     {
-                        Debug.Log(System.Convert.ToInt32(op.text));
+                        Messenger<int>.Broadcast(GameEvent.SEND_NUM, System.Convert.ToInt32(op.text));
                     }
                 );
             }

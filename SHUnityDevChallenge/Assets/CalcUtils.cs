@@ -32,3 +32,20 @@ public class CalcInputs
     public List<CalcInputs> subOptions;
 
 }
+
+public class DataManager
+{
+    public static string OperationToString(InputOperation op)
+    {
+        switch (op)
+        {
+            case InputOperation.ADD: return "+";
+            case InputOperation.SUB: return "-";
+            case InputOperation.MUL: return "*";
+            case InputOperation.DIV: return "/";
+            case InputOperation.POW: return "POW";
+            case InputOperation.SQRT: return "SQRT";
+            default: return "";
+        }
+    }
+}
