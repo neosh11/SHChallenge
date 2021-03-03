@@ -14,8 +14,6 @@ public class RowItem : MonoBehaviour
     [SerializeField] private TMP_Text valueText;
     [SerializeField] private GameObject image;
 
-
-    // Update is called once per frame
     public void UpdateValues()
     {
         entryText.text = entry;
@@ -23,6 +21,11 @@ public class RowItem : MonoBehaviour
         if (selected)
         {
             image.SetActive(true);
+        }
+        else
+        {
+            entryText.color = Color.black;
+            valueText.color = Color.black;
         }
     }
 }
