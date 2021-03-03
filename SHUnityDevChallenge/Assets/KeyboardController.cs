@@ -23,5 +23,11 @@ public class KeyboardController : MonoBehaviour
             // Redo
             Messenger.Broadcast(GameEvent.REDO);
         }
+
+        else if (Input.GetButtonDown("Jump"))
+        {
+            // Redo
+            Messenger.Broadcast(GameEvent.UPDATE_HISTORY);
+        }
     }
 }
