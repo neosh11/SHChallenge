@@ -8,4 +8,7 @@ public static class GameEvent
     public const string UNDO = "UNDO";
     public const string REDO = "REDO";
 
+    public const string ESC = "ESC";
+
+
 }

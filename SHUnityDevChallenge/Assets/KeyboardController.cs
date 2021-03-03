@@ -15,19 +15,21 @@ public class KeyboardController : MonoBehaviour
     {
         if (Input.GetButtonDown("Undo"))
         {
-            // Undo
             Messenger.Broadcast(GameEvent.UNDO);
         }
         else if (Input.GetButtonDown("Redo"))
         {
-            // Redo
             Messenger.Broadcast(GameEvent.REDO);
         }
 
         else if (Input.GetButtonDown("Jump"))
         {
-            // Redo
             Messenger.Broadcast(GameEvent.UPDATE_HISTORY);
+        }
+        else if (Input.GetButtonDown("Cancel"))
+        {
+            Debug.Log("Escaping");
+            Messenger.Broadcast(GameEvent.ESC);
         }
     }
 }
