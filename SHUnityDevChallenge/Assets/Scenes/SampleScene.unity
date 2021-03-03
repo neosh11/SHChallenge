@@ -3707,8 +3707,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubePrefab: {fileID: 8076429475065399709, guid: 3225d0e5e2c48ce4cac34bbe15d59116,
     type: 3}
-  remainderPrefab: {fileID: 8076429475065399709, guid: 3225d0e5e2c48ce4cac34bbe15d59116,
-    type: 3}
+  remainderMaterial: {fileID: 2100000, guid: 2460ccacb2b76b84daca26f94ec8524a, type: 2}
+  negativeMaterial: {fileID: 2100000, guid: 87087b2a3cd29a440b805c5072b40cdd, type: 2}
   calculatorController: {fileID: 318534080}
 --- !u!4 &2029801415
 Transform:
