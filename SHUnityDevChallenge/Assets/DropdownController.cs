@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public enum InputDataType
 {
     NUMERIC,
-    OPERATION
+    OPERATION,
+    SUBMENU
 }
 
 public enum InputOperation
@@ -40,12 +41,17 @@ public class CalcInputs
 
 public class DropdownController : MonoBehaviour
 {
+    // Currently set up in a dodgy manner
+    // Operations menu uses a different prefab compared to numbers
     [SerializeField] private GameObject optionPrefab;
     [SerializeField] private InputDataType type;
     [SerializeField] private Transform menuPanel;
-
     private List<CalcInputs> options;
 
+    // TODO need to make this modifiable for later activity
+    public int minNumber = 0;
+    public int maxNumber = 9;
+    private List<GameObject> subPanels;
 
 
     // Start is called before the first frame update
@@ -97,19 +103,67 @@ public class DropdownController : MonoBehaviour
             }
             };
         }
+        else if (type == InputDataType.NUMERIC)
+        {
+            options = new List<CalcInputs>();
+            for (int i = minNumber; i <= maxNumber; i++)
+            {
+                List<CalcInputs> subOptions = new List<CalcInputs>();
 
+                for (int j = 0; j < 10; j++)
+                {
+                    subOptions.Add(new CalcInputs()
+                    {
+                        text = i.ToString() + j.ToString(),
+                        type = InputDataType.NUMERIC,
+                    });
+                }
 
+                options.Add(new CalcInputs()
+                {
+                    text = i.ToString(),
+                    type = InputDataType.SUBMENU,
+                    subOptions = subOptions
+                });
 
-        Debug.Log(options.Count);
+            }
+        }
         for (int i = 0; i < options.Count; i++)
         {
+
+
+
             GameObject optionButton = Instantiate(optionPrefab);
             CalcInputs op = options[i];
 
             optionButton.GetComponentInChildren<TMP_Text>().text = op.text;
 
-            Debug.Log("a");
-            if (op.type == InputDataType.OPERATION)
+            if (op.type == InputDataType.SUBMENU)
+            {
+                // Initialize
+                subPanels = new List<GameObject>();
+
+                // Store panel
+                GameObject panel = optionButton.transform.Find("Panel").gameObject;
+                subPanels.Add(panel);
+
+
+                SubMenuItem subButtonComp = optionButton.GetComponent<SubMenuItem>();
+                subButtonComp.options = op.subOptions;
+                subButtonComp.GenerateSubMenu();
+
+            }
+            else if (op.type == InputDataType.NUMERIC)
+            {
+                // Pass the value to calculator controller
+                optionButton.GetComponent<Button>().onClick.AddListener(
+                    () =>
+                    {
+                        Debug.Log(System.Convert.ToInt32(op.text));
+                    }
+                );
+            }
+            else if (op.type == InputDataType.OPERATION)
             {
                 optionButton.GetComponent<Button>().onClick.AddListener(
 
