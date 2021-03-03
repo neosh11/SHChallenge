@@ -54,17 +54,20 @@ public class CalculatorController : MonoBehaviour
 
     void Undo()
     {
-        // TODO BROKEN! NEED CHECKS
-        position--;
-        Messenger.Broadcast(GameEvent.UPDATE_HISTORY);
+        if (position > 0)
+        {
+            position--;
+            Messenger.Broadcast(GameEvent.UPDATE_HISTORY);
+        }
     }
 
     void Redo()
     {
-        // TODO BROKEN! NEED CHECKS
-        position++;
-        Messenger.Broadcast(GameEvent.UPDATE_HISTORY);
-
+        if (inputs.Count > 0 && position < inputs.Count - 1)
+        {
+            position++;
+            Messenger.Broadcast(GameEvent.UPDATE_HISTORY);
+        }
     }
 
 
